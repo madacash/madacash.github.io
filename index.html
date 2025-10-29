@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة العملاء والباقات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Overlay -->
+    <div id="overlay" class="overlay" onclick="closeAllModals()"></div>
+
+    <!-- Toast للتنبيهات -->
+    <div id="toast" class="toast">
+        <div class="toast-title" id="toastTitle"></div>
+        <div class="toast-message" id="toastMessage"></div>
+    </div>
+
+    <!-- شاشة الترحيب -->
+    <div id="welcomeScreen" class="screen active">
+        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgIKQCMT8B_8ih6BCvsuTdEjxhgDnjbq2k1cNMx2MSNT6uAUqxt-O2OHURohJcmopNky_xehThHAbLBw7DneZxbGIo8a6Zg5_1DzQH2_w6GqYUH66SRHB1XJmF1WBtNLwtCCrsteSwAGm-MGCkGdHlteTCSB7srwYQMC4oSaerukYrpGMaKhDHndcUzhKA" alt="شعار مدى كاش" class="welcome-logo">
+        <p class="welcome-subtitle"> </p>
+    </div>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginScreen" class="screen">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-logo">
+                    <img src="https://blogger.googleusercontent.com/img/a/AVvXsEgArZHdrIYio4NHZzqkKvAyVCek0zyxqoWIvTTcDZKtwPHmG9hWgekRJdh5GEgXA7DcC-peEShFyLOZ9iSkqCLN-1Y_4x-KA51KmF4t_yqh8q8IsJ6mWIaL7lpSTii9_1lfAmzICwcrfhbIhTunQGAeN9nR8s7RO3hO7Wv2N4eyig8XPXyH0CrrwhCOsUg" alt="شعار مدى كاش">
+                </div>
+                <p class="auth-subtitle" style="color: #7465d1; border-bottom: 1px solid #cbc7c9; padding-bottom: 15px; margin-bottom: 15px; font-size: 14px; line-height: 1.5;">
+                    خدمة ذكية من شبكة <strong style="color: #8530b3;">مدى نت</strong> تتيح لك شحن الرصيد<br>
+                    وشراء كروت باقات إنترنت الشبكة بسهولة ومرونة<br>
+                    من أي مكان وفي أي وقت
+                </p>
+                <h2 class="auth-title" style="margin-top: 40px;">تسجيل الدخول</h2>
+                <p class="auth-subtitle">أدخل بياناتك للدخول إلى حسابك</p>
+                <div id="loginError" style="display: none;"></div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">رقم الجوال</label>
+                        <input type="tel" id="loginPhone" class="form-input number-input" placeholder="05xxxxxxxx" required maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">كلمة المرور</label>
+                        <input type="password" id="loginPassword" class="form-input" placeholder="أدخل كلمة المرور" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">
+                            <i data-feather="eye"></i>
+                        </button>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="loginBtn"><i data-feather="log-in"></i> تسجيل الدخول</button>
+                </form>
+                <button class="btn btn-secondary" onclick="showRegister()"><i data-feather="user-plus"></i> إنشاء حساب جديد</button>
+
+                <!-- قسم طرق الشحن المبسط -->
+                <div style="text-align: center; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 14px;">
+                    <div style="color: #9C27B0; font-weight: bold; font-size: 16px; margin-bottom: 10px;">
+                        طريقة شحن حسابك برصيد
+                    </div>
+                    <div style="color: #333; font-size: 13px; margin-bottom: 8px;">
+                        • شحن ببطاقات مسبقة الدفع
+                    </div>
+                    <div style="color: #333; font-size: 13px; margin-bottom: 8px;">
+                        • ايداع عبر العمقي لحساب مركز مدى
+                    </div>
+                    <div style="color: #9C27B0; font-weight: bold; margin: 10px 0; font-size: 14px;">
+                        رقم حسابنا لدى العمقي : 254120960
+                    </div>
+                    <div style="color: #666; font-size: 12px;">
+                        ارسل إشعار الايداع إلى رقم الواتساب :7000000000
+                    </div>
+                </div>
+
+                <!-- الروابط الجديدة -->
+                <div class="auth-links">
+                    <a class="auth-link" onclick="openHelpModal()">
+                        تعليمات التطبيق
+                    </a>
+                    <a class="auth-link" onclick="openTermsModal()">
+                        الشروط والأحكام
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة التسجيل -->
+    <div id="registerScreen" class="screen">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-icon"><i data-feather="user"></i></div>
+                <h2 class="auth-title">إنشاء حساب جديد</h2>
+                <p class="auth-subtitle">سجل بياناتك للحصول على حساب جديد</p>
+                <div id="registerError" style="display: none;"></div>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label class="form-label">الاسم الكامل</label>
+                        <input type="text" id="registerName" class="form-input" placeholder="أدخل اسمك الكامل" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">المنطقة</label>
+                        <input type="text" id="registerArea" class="form-input" placeholder="أدخل منطقتك" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رقم الجوال</label>
+                        <input type="tel" id="registerPhone" class="form-input number-input" placeholder="05xxxxxxxx" required maxlength="10">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">كلمة المرور </label>
+                        <input type="password" id="registerPassword" class="form-input" placeholder="أدخل كلمة المرور" required minlength="6">
+                        <button type="button" class="password-toggle" onclick="togglePassword('registerPassword', this)">
+                            <i data-feather="eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">تأكيد كلمة المرور</label>
+                        <input type="password" id="registerConfirmPassword" class="form-input" placeholder="أعد إدخال كلمة المرور" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('registerConfirmPassword', this)">
+                            <i data-feather="eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">هل تملك حساب لدى شركات الصرافة ؟ </label>
+                        <select id="registerBankType" class="form-input">
+                            <option value="">اختر شركة الصرافة</option>
+                            <option value="العمقي">العمقي</option>
+                            <option value="الكريمي">الكريمي</option>
+                            <option value="البسيري">البسيري</option>
+                            <option value="بن دول">بن دول</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رقم حسابك لدى شركة الصرافة </label>
+                        <input type="text" id="registerBankAccount" class="form-input number-input" placeholder="أدخل رقم الحساب">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="registerBtn"><i data-feather="user-plus"></i> إنشاء الحساب</button>
+                </form>
+                <button class="btn btn-secondary" onclick="showLogin()"><i data-feather="arrow-right"></i> لديك حساب؟ تسجيل الدخول</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة نجاح التسجيل -->
+    <div id="successScreen" class="screen">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-icon"><i data-feather="check-circle"></i></div>
+                <h2 class="auth-title">تم التسجيل بنجاح!</h2>
+                <p class="auth-subtitle">احتفظ بهذه البيانات لتسجيل الدخول</p>
+                <div class="info-box">
+                    <div class="info-item">
+                        <div>
+                            <div class="info-label">رقم الجوال</div>
+                            <div class="info-value" id="successPhone"></div>
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('successPhone')"><i data-feather="copy"></i> نسخ</button>
+                    </div>
+                    <div class="info-item">
+                        <div>
+                            <div class="info-label">الكود المميز</div>
+                            <div class="info-value" id="successCode"></div>
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('successCode')"><i data-feather="copy"></i> نسخ</button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="loginWithRegisteredData()"><i data-feather="log-in"></i> الدخول إلى الحساب</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div id="dashboardScreen" class="screen">
+        <!-- سيتم تحميل Dashboard ديناميكياً -->
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
